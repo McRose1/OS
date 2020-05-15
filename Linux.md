@@ -87,6 +87,54 @@ chmod 777 test.txt：7=111，给 test 拥有者、所属群组、其他人所有
 
 这是软链接和硬链接最大的不同：文件 A 指向文件 B 的文件名，而不是文件 B 的 inode 号码，文件 B 的 inode “链接数” 不会因此发生变化。
 
+## 查找特定的文件
+### find：在指定目录下查找文件
+语法：find path [options] params
+
+- find ~ -name "target3.java"：精确查找文件
+- find ~ -name "target*"：模糊查找文件
+- find ~ -iname "target*"：不区分文件名大小写去查找文件
+
+## 检索文件内容
+### grep（Global Regular Expression Print）：查找文件里符合条件的字符串
+
+语法：grep [options] pattern file
+
+- grep 'partial\[true\]' bsc-plat-al-data.info.log
+- grep -o 'engine\[[0-9a-z]*\]'
+- grep -v 'grep'：过滤
+
+### 管道操作符 |
+- 可将指令连接起来，前一个指令的输出作为后一个指令的输入
+
+使用管道注意的要点：
+- 只处理前一个命令正确输出，不处理错误输出
+- 右边命令必须能够接受标准输入流，否则传递过程中数据会被抛弃
+- sed, awk, grep, cut, head, top, less, more, wc, join, sort, split 等
+
+## 对文件内容做统计
+### awk
+- 一次读取一行文本，按输入分隔符进行切片，切成多个组成部分
+- 将切边直接保存在内建的变量中，$1$2...（$0表示行的全部）
+- 支持对单个切片的判断，支持循环判断，默认分隔符为空格
+
+语法：awk [options] 'cmd' file
+
+- awk '{print $1, $4}' netstat.txt
+- awk '$1 == "tcp" && $2 == 1 {print $0}' netstat.txt
+- awk -F "," '{print $2}' test.txt：awk 的默认分隔符为空格，用 -F 可以改变分隔符
+- awk '{enginearr[$1++]}END{for(i in enginearr)print i "\t" enginearr[i]}'
+
+## 批量替换文本内容
+### sed
+- 全名为 stream editor，流编辑器
+- 适合用于对文本的行内容进行处理
+
+语法：sed [option] 'sed command' filename
+
+- sed -i 's/^Str/String/' replace.java：开头替换
+- sed -i's/\.$/\;/' replace.java：结尾替换
+- sed -i's/Jack/me/g' replace.java：全局替换
 
 
 
