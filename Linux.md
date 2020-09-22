@@ -130,6 +130,10 @@ PATH=$PATH:$PWD     # 把当前目录追加到 PATH 中
 
 which: locate a program file in user's path 
 
+冷知识：yes：一直输出 y    yes '指定字符串'
+- Usage: Skip user confirmation 
+  - yes | sudo apt-get install ...
+
 ## 查看磁盘使用情况
 - df：统计磁盘整体情况，包括磁盘大小、已使用、可用
 - df -lh：更清楚的磁盘使用情况
