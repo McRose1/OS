@@ -57,6 +57,79 @@
 - man less | grep sim
 - man less | grep -n sim | grep That > that.txt # multiple pipes 
 
+## 运行脚本
+cat my_echo.py
+```python
+import sys
+def main():
+  print(' '.join(sys.argv[1:]))
+if __name__ == '__main__':
+  main()
+```
+python3 my_echo.py hello world # 解释器 脚本文件 [参数]
+
+hello world 
+
+## 运行脚本 - 另一种方法
+Add the following header to my_echo.py:
+- #!/usr/bin/env python3  # 指定解释器
+- chmod +x my_echo.py     # 增加可执行权限
+- ./my_echo.py hello world! # 运行脚本
+
+hello world!
+
+- mv my_echo.py my_echo   # 移动文件（更改文件名）
+- PATH=$PATH:$PWD         # 将当前路径追加到 PATH 环境变量
+- {my_}echo hello world!  # 安能辨我是雌雄
+
+hello world!
+
+- which my_echo           # 火眼金睛
+
+/Users/huahua/cmd2/my_echo
+
+## #!/usr/bin/env python3
+
+Shebang: #! 
+
+使用哪个解释器（interpreter）去解释/运行脚本
+
+必须放在第一行，并使用**绝对路径**
+
+## chomd (Change Mode) 改变文件的权限
+- chmod +x foo # 增加可执行权限 / +w +r
+- chmod -x foo # 移除可执行权限 / -w -r
+- chmod 740 foo # 把 foo 的权限设置成 740
+  - Owner：7 = 1 + 2 + 4 = 可执行 + 可写 + 可读
+  - Group：4 = 4 = 可读
+  - Others：0 = 没有任何权限
+  
+常见：
+- 644 -rw-r--r-- # default
+- 755 -rwxr-xr-x
+- 777 -rwxrwxrwx # 危险！use chown/chgrp instead 
+
+## 文件基本操作
+- mv: (Move) 移动文件 重命名，剪切+粘贴
+  - mv hwllo.txt hello.txt # 重命名
+  - mv 四六级 大学/英语      # 移动文件夹
+- cp: (Copy) 复制文件
+  - cp a.txt a_copy.txt   # 复制单个文件
+  - cp -r dir1 dir2       # 复制文件夹（-r 递归）
+- rm: (Remove) 删除文件 没有回收站！！！
+  - rm a.txt              # 删除单个文件
+  - rm a.txt b.txt c.txt  # 删除多个文件 / rm *.txt
+  - rm -r dir1            # 递归删除 dir1 和所有子目录/文件
+  
+## $PATH 环境变量 + which 命令
+$PATH：以:分割的文件夹列表
+
+从哪里去找可执行文件（按照文件夹的顺序查找）
+
+PATH=$PATH:$PWD     # 把当前目录追加到 PATH 中
+
+which: locate a program file in user's path 
+
 ## 查看磁盘使用情况
 - df：统计磁盘整体情况，包括磁盘大小、已使用、可用
 - df -lh：更清楚的磁盘使用情况
