@@ -1,5 +1,62 @@
 # Linux 相关
 
+## 初来乍到
+### echo（自言自语）
+- echo hello world 
+- echo $PWD / echo $HOME / echo ~
+
+### pwd (Print Working Directory) 我在哪儿
+- pwd
+
+### cd (Change Directory) 换个地方
+- cd path / % cd ~
+- cd .. # 向上一层
+
+### ls (List Directory Contents) 瞅瞅
+- ls
+- ls -l # list mode
+- s -l -a = ls -la # list + all files 
+- ls -lh # list + human readable size
+
+## 寻求帮助
+## man（Manual）用户手册
+- man pwd
+- man man
+
+## 内置帮助 命令 -h
+- man -h 
+- grep --help
+
+## 文件内容
+### cat（Concatenate and print files）打印文件内容
+- cat a.txt
+- cat a.txt b.txt # print a.text then b.txt
+- cat < a.txt # read from stdin
+
+### head and tail（头和尾）
+- head a.txt
+- tail a.txt / tail -n 5 a.txt （配置输出多少行 -n） / tail -f a.txt （实时观察文件最新变化 -f）
+
+### less (re) 交互浏览 (read-only version of vi)
+- less a.txt
+
+### 内容查找 / or grep
+- man less | grep -n sim
+
+### wc (Word, line and byte count) 单词统计
+- man wc | wc
+
+## 重定向和管道
+### 重定向：改变输入输出设备
+- 标准输入（stdin）/标准输出（stdout）：控制台/键盘/屏幕
+- echo hello > hello.txt # redirect to a file 
+- echo world >> hello.txt # append to a file 
+- echo < hello.txt # use file as stdin <=> read from file
+
+### 管道：将前一个命令的标准输出作为下一个程序的标准输入
+- man less | grep sim
+- man less | grep -n sim | grep That > that.txt # multiple pipes 
+
 ## 查看磁盘使用情况
 - df：统计磁盘整体情况，包括磁盘大小、已使用、可用
 - df -lh：更清楚的磁盘使用情况
