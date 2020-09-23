@@ -133,7 +133,66 @@ which: locate a program file in user's path
 冷知识：yes：一直输出 y    yes '指定字符串'
 - Usage: Skip user confirmation 
   - yes | sudo apt-get install ...
+ 
+ 
+## sort(Time = O(n) Space = O(n))
+对输入文本进行排序
 
+弊端：会把所有数据读入内存，如果内存存不下则会写入临时文件
+
+## uniq -c(Time = O(n) Space = O(1))
+统计每个独立行的出现次数，仅对已排序文件有效
+
+## awk
+awk is a domain-specific langauge designed for text processing and typically used as a data extraction and reporting tool.
+
+cat *.pgn | grep "result" | awk '{split($0, a, "-")}'; res = substr(a[1], length(a[1]), 1); if (res == 1) white++; if (res == 0) black++; if (res == 2) draw++;} END { print white+black+draw, white, black, draw }'
+  - $0 # 输入行 '[Result "1/2-1/2"]'
+  - split($0, a, "-") # 按 - 分割 a = ['[Result "1/2', '1/2"]']
+  - substr(a[1], length(a[1]), 1) # 取出最后一个字符
+
+## 并行化
+sleep 3 | sleep 5 | echo '8'
+
+管道中的命令并行执行
+
+- find：查找文件，打印匹配文件名到标准输出
+- xargs：将参数列表（文件名）分段并执行命令
+  - -n：每次（最多）取几个参数
+  - -P：最多几个命令同时并行执行
+
+xargs -n1 -P8：最多有 8 个 mawk 命令同时在运行 multi-processing
+
+## stress & top
+- stress：给系统增加负载或者进行压力测试
+  - -t/--timeout N # N 秒后超时
+  - -c/--cpu N     # 孵化 N 个 worker，死循环运行 sqrt() / CPU
+  - -i/--io N      # 孵化 N 个 worker，死循环运行 sync() / IO
+  - -m/--vm N      # 孵化 N 个 worker，死循环运行 malloc()/free() / Memory
+  - -d/-hdd N      # 孵化 N 个 worker，死循环运行 write()/unlink() / Disk
+  
+stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 10s
+
+- top：显示或更新排序过的进程信息
+  - 默认按照 CPU 占用率排序
+  - 当风扇声音很大的时候就可以看一下谁在搞鬼
+  
+## ps（Process Status）显示进程状态
+- 默认只显示当前用户有控制终端的进程
+- ps aux # 显示所有进程，包括其他用户的
+- ps aux | grep Chrome | wc -l # 看一看 Chrome 起了多少个进程
+
+## kill & killall
+- kill：终止或者给进程发信号
+  - kill -signal_number/-signal_name PID
+  - kill PID # 默认发送 15/TERM(software termination signal)
+  - kill -9/-KILL PID # 强力杀进程
+- killall：按照名字终止进程
+  - 和 kill 一样，但是用名字作为参数
+  - 如果是大众命令就有可能误伤 (killall bash / killall Python)
+  - killall -9 stress
+  
+  
 ## 查看磁盘使用情况
 - df：统计磁盘整体情况，包括磁盘大小、已使用、可用
 - df -lh：更清楚的磁盘使用情况
@@ -144,6 +203,28 @@ which: locate a program file in user's path
 - df -h /目录名/：查看指定目录
 
 - du：显示目录或文件的大小
+
+## Ctrl+C vs. Ctrl+Z
+- 都能让程序“停止”
+- Ctrl+C 向进程发送 SIGINT 中断信号，通常进程会终止
+- Ctrl+Z 向进程发送 SIGTSTP 停止信号,把前台进程放入后台并挂起
+  - 进程还存在
+  - 打开的端口还会被占用
+
+## & / jobs / fg /bg
+- &：在后台运行进程
+  - python3 -m http.server &      # 在后台起一个 http server 
+  - 前台可以继续运行其他命令
+  - 当前终端/SSH 关闭后依旧会被终止（solution: screen / tmux / Chrome RDP）
+- jobs：显示当前终端启动的命令
+  - jobs
+  - jobs -;   # 显示 PID
+- fg：把后台进程变成前台
+  - fg %1     # 把 1 号 job 放到前台并开始运行
+- bg：继续被挂起的后台进程
+  - stress -c 1
+  - Ctrl+Z    # 挂起当前进程并放入后台
+  - bg        # 重启最后一个 job
 
 ## uname 
 - -a 或 --all：显示全部的信息
