@@ -178,7 +178,7 @@ stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 10s
   - 当风扇声音很大的时候就可以看一下谁在搞鬼
   
 ## ps（Process Status）显示进程状态
-- 默认只显示当前用户有控制终端的进程
+默认只显示当前用户有控制终端的进程
 - ps aux # 显示所有进程，包括其他用户的
 - ps aux | grep Chrome | wc -l # 看一看 Chrome 起了多少个进程
 
