@@ -182,6 +182,10 @@ stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 10s
 - ps aux # 显示所有进程，包括其他用户的
 - ps aux | grep Chrome | wc -l # 看一看 Chrome 起了多少个进程
 
+ps 和 top 的区别：
+1. ps 看到的是命令执行瞬间的进程信息，而 top 可以持续的监视
+2. ps 只是查看进程，而 top 还可以监视系统性能，CPU和内存的消耗
+
 ## kill & killall
 - kill：终止或者给进程发信号
   - kill -signal_number/-signal_name PID
